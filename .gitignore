@@ -1,8 +1,15 @@
 .vs/
 .vscode/
 .idea/
-
-bin/
-obj/
-
 *.user
+
+# Clangd
+compile_flags.txt
+.cache/
+
+# Stubs for gtk and glib
+stubs/
+
+# Build
+obj
+nightglow.*

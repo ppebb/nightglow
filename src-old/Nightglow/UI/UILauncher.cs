@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Gtk;
 using Nightglow.Common;
 using Nightglow.Common.Dialogs;
@@ -22,7 +22,7 @@ public class UILauncher : Launcher {
     public override IConfirmationDialog NewConfirmationDialog(string title, string text, params DialogOption<IConfirmationDialog>[] opts) {
         IConfirmationDialog? dialog = null;
 
-       if (Environment.CurrentManagedThreadId != 1) {
+        if (Environment.CurrentManagedThreadId != 1) {
             ExecuteInMainContext(() => {
                 dialog = new UIConfirmationDialog(Application, MainWindow);
                 dialog.Initialize(title, text, opts);
