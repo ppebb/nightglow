@@ -1,3 +1,6 @@
 [submodule "third_party/incbin"]
 	path = third_party/incbin
 	url = https://github.com/graphitemaster/incbin.git
+[submodule "third_party/clay"]
+	path = third_party/clay
+	url = https://github.com/nicbarker/clay.git

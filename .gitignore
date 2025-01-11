@@ -7,8 +7,8 @@
 compile_flags.txt
 .cache/
 
-# Stubs for gtk and glib
-stubs/
+# Copied in headers
+third_party/headers/
 
 # Build
 obj

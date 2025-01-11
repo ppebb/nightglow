@@ -8,23 +8,16 @@ ifeq (${MODE}, debug)
 	DBGFLAGS = -fsanitize=address -fsanitize=undefined
 endif
 
-# Get all of the stubs and the headers they contain
-STUBS=$(addprefix -I, $(shell find ./stubs/ -maxdepth 1 -type d))
-# Headers in /usr/include
-LIBS_RAW=pango-1.0 harfbuzz gdk-pixbuf-2.0 graphene-1.0 cairo gtk-4.0 glib-2.0
-LIBS=$(addprefix -I/usr/include/, $(LIBS_RAW))
-# Headers in /usr/lib
-LIBS_2_RAW=graphene-1.0 glib-2.0
-LIBS_2=$(addsuffix /include, $(addprefix -I/usr/lib/, $(LIBS_2_RAW)))
-
 CC=cosmocc
-CFLAGS=-Wall -Wextra -std=c99 -O0 -Wno-deprecated-declarations -fno-omit-frame-pointer -fno-pie -no-pie -pg -gdwarf-4 -I./ $(STUBS) $(LIBS) $(LIBS_2) $(DBGFLAGS) -D_COSMO_SOURCE
+CFLAGS=-Wall -Wextra -std=c99 -O0 -Wno-deprecated-declarations \
+-fno-omit-frame-pointer -fno-pie -no-pie -pg -gdwarf-4 -I./ \
+-I./third_party/glfw-stub/ -I./third_party/headers/ $(DBGFLAGS) -D_COSMO_SOURCE
 LDFLAGS=-ldl
 BIN=nightglow.com
 OBJDIR=obj
 
 # Finds all c files but excludes the headers and test directory
-SRCS=$(shell find . -name "*.c" -not -path '*/headers/*' -and -not -path "*/incbin/*")
+SRCS=$(shell find . -name "*.c" -and -not -path "*/incbin/*" -and -not -path "*/clay/*")
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 
 .PHONY: all

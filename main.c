@@ -1,37 +1,38 @@
 #include "common/icon_utils.h"
 #include "common/platform/platform.h"
-#include "glib_stub.h"
-#include "gtk4_stub.h"
-#include "ui/launcher_window.h"
+#include "glfw_stub.h"
 #include <libc/runtime/runtime.h>
+#include <libc/stdio/stdio.h>
 
-static void activate(GtkApplication *app, gpointer data) {
-    data = launcher_window_new(app);
-    gtk_window_present(((launcher_window *)data)->win);
+void error_callback(int _, const char *description) {
+    fprintf(stderr, "Error: %s\n", description);
 }
 
 int main(int argc, char **argv) {
-    // ShowCrashReports();
-    initialize_glib();
-    initialize_gtk4();
+    initialize_glfw();
     initialize_platform();
     initialize_icons();
 
-    GtkApplication *app;
-    int status;
+    if (!glfwInit()) {
+        fprintf(stderr, "glfwInit Failed!\n");
+        exit(1);
+    }
 
-    app = gtk_application_new("ppeb.nightglow", G_APPLICATION_DEFAULT_FLAGS);
+    glfwSetErrorCallback(error_callback);
 
-    launcher_window *lwin = NULL;
-    g_signal_connect(app, "activate", G_CALLBACK(activate), lwin);
+    GLFWwindow *window = glfwCreateWindow(640, 480, "nightglow", NULL, NULL);
+    if (!window) {
+        fprintf(stderr, "glfwCreateWindow Failed!\n");
+        exit(1);
+    }
 
-    status = g_application_run(G_APPLICATION(app), argc, argv);
+    glfwMakeContextCurrent(window);
 
-    launcher_window_free(lwin);
-    g_object_unref(app);
+    while (!glfwWindowShouldClose(window)) {
+    }
 
-    close_glib();
-    close_gtk4();
+    glfwTerminate();
+    close_glfw();
 
-    return status;
+    return 0;
 }

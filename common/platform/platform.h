@@ -9,15 +9,17 @@
 
 typedef struct _platform {
     char *(*path_combine)(const char *, const char *);
-    int (*open_path)(const char *);
+    const char *(*data_dir)(void);
+    const char *(*cache_dir)(void);
+    int (*open_path)(char *const);
 } platform;
 
-int posix_spawnp_shut_up(const char *prog, const char **const args);
+int posix_spawnp_shut_up(const char *prog, char *const *args);
 
 void initialize_platform(void);
 char *path_combine(const char *path, const char *other);
 char *__path_combinev(size_t len, const char **paths);
-int open_path(const char *path);
+int open_path(char *const path);
 extern const char *ng_data_path;
 extern const char *ng_cache_path;
 extern const char *ng_netfx_path;
