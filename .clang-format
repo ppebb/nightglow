@@ -1,10 +1,13 @@
 BasedOnStyle: LLVM
-AlignAfterOpenBracket: "BlockIndent"
+AlignAfterOpenBracket: "AlwaysBreak"
 AlignArrayOfStructures: "Left"
 AllowShortFunctionsOnASingleLine: false
 BreakBeforeBraces: "Custom"
 BraceWrapping:
   BeforeElse: true
+ColumnLimit: 120
+Cpp11BracedListStyle: false
+IndentCaseLabels: true
 IndentWidth: 4
 LineEnding: "LF"
 MaxEmptyLinesToKeep: 1
