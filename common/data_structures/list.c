@@ -48,9 +48,7 @@ bool list_insert(list *l, void *item, size_t idx) {
         resize(l, l->capacity * 2);
 
     if (idx < l->len)
-        memmove(
-            l->data[idx + 1], l->data[idx], l->len - (idx + 1) * sizeof(void *)
-        );
+        memmove(l->data[idx + 1], l->data[idx], l->len - (idx + 1) * sizeof(void *));
     l->len++;
 
     l->data[idx] = item;
@@ -69,9 +67,7 @@ bool list_remove(list *l, size_t idx) {
     if (idx >= l->len)
         return false;
 
-    memmove(
-        l->data[idx], l->data[idx + 1], l->len - (idx + 1) * sizeof(void *)
-    );
+    memmove(l->data[idx], l->data[idx + 1], l->len - (idx + 1) * sizeof(void *));
     l->len--;
 
     return true;
@@ -89,6 +85,11 @@ bool list_remove_elem(list *l, void *elem, int (*cb)(void *, void *)) {
             return list_remove(l, i);
 
     return false;
+}
+
+void list_clear(list *l) {
+    memset(l->data, 0, l->len);
+    l->len = 0;
 }
 
 int list_bin_search(list *l, void *elem, int (*cb)(void *, void *)) {
@@ -121,8 +122,7 @@ static void swap(void **p1, void **p2) {
     *p2 = temp;
 }
 
-static size_t
-partition(void **arr, size_t low, size_t high, int (*cb)(void *, void *)) {
+static size_t partition(void **arr, size_t low, size_t high, int (*cb)(void *, void *)) {
     void *pivot = arr[high];
 
     size_t i = low - 1;
@@ -138,8 +138,7 @@ partition(void **arr, size_t low, size_t high, int (*cb)(void *, void *)) {
     return (i + 1);
 }
 
-static void
-quicksort(void **arr, size_t low, size_t high, int (*cb)(void *, void *)) {
+static void quicksort(void **arr, size_t low, size_t high, int (*cb)(void *, void *)) {
     if (cb(arr[low], arr[high]) == -1) {
         size_t pi = partition(arr, low, high, cb);
 

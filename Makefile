@@ -8,19 +8,21 @@ ifeq (${MODE}, debug)
 	DBGFLAGS = -fsanitize=address -fsanitize=undefined
 endif
 
-STUBS=$(addprefix -I, $(shell find ./third_party -maxdepth 1 -path "*stub*" -type d))
+STUBS=$(addprefix -isystem , $(shell find ./third_party -maxdepth 1 -path "*stub*" -type d))
 
 CC=cosmocc
-CFLAGS=-Wall -Wextra -std=c99 -O0 -Wno-deprecated-declarations \
--fno-omit-frame-pointer -fno-pie -no-pie -pg -gdwarf-4 -I./ \
--I/usr/include/SDL2 ${STUBS} $(DBGFLAGS) -D_COSMO_SOURCE
+CFLAGS=-Wall -Wextra -std=c99 -O0 -Wno-deprecated-declarations       \
+-fno-omit-frame-pointer -fno-pie -no-pie -pg -gdwarf-4 -I./ -isystem \
+/usr/include/SDL2 -isystem ./third_party ${STUBS} $(DBGFLAGS)        \
+-D_COSMO_SOURCE
+
 LDFLAGS=-ldl
 BIN=nightglow.com
 OBJDIR=obj
 
 # Finds all c files but excludes the headers and test directory
 SRCS=$(shell find . -name "*.c" -and \( -not -path "*/third_party/*" -or -path \
-"*stub*" -or -path "*clay_renderer_SL2.c*" \))
+"*stub*" \))
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 
 .PHONY: all
