@@ -28,8 +28,12 @@ int main() {
             // Needs to exist beyond its enclosing scope!
             SDL_Event *event = malloc(sizeof(SDL_Event));
 
-            if (SDL_PollEvent(event))
+            if (SDL_PollEvent(event)) {
+                if (event->type == SDL_QUIT)
+                    goto close;
+
                 list_add(events, &event);
+            }
             else {
                 free(event);
                 break;
@@ -43,8 +47,10 @@ int main() {
         }
 
         // Once every window is closed, we can exit
-        if (ng_wins->len == 0)
+        if (ng_wins->len == 0) {
+            printf("ng_wins became empty!\n");
             break;
+        }
     }
 
 close:

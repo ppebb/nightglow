@@ -63,7 +63,8 @@ bool renderer_render_ng_win(ng_win *w, list *events) {
             continue;
 
         switch (event.type) {
-            case SDL_QUIT:
+            case SDL_WINDOWEVENT_CLOSE:
+                printf("Detected SDL_WINDOWEVENT_CLOSE on window id %d\n", winID);
                 return true;
             case SDL_MOUSEWHEEL: {
                 scrollDelta.x = event.wheel.x;

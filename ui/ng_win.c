@@ -13,9 +13,11 @@ ng_win *ng_win_new(char *title, int w, int h, Clay_RenderCommandArray (*create_l
     SDL_Renderer *ren;
 
     if (SDL_CreateWindowAndRenderer(w, h, SDL_WINDOW_RESIZABLE, &win, &ren) < 0) {
-        fprintf(stderr, "Error: unable to create sdl window '%s' and renderer: %s", title, SDL_GetError());
+        fprintf(stderr, "Error: unable to create sdl window '%s' and renderer: %s\n", title, SDL_GetError());
         return NULL;
     }
+
+    printf("Created window with ID %d\n", SDL_GetWindowID(win));
 
     ng_win *ret = malloc(sizeof(ng_win));
 
@@ -42,6 +44,7 @@ ng_win *ng_win_new(char *title, int w, int h, Clay_RenderCommandArray (*create_l
 }
 
 void ng_win_destroy(ng_win *w) {
+    printf("Destroying window with ID %d\n", SDL_GetWindowID(w->win));
     SDL_DestroyRenderer(w->ren);
     SDL_DestroyWindow(w->win);
 
