@@ -67,7 +67,7 @@ bool list_remove(list *l, size_t idx) {
     if (idx >= l->len)
         return false;
 
-    memmove(l->data[idx], l->data[idx + 1], l->len - (idx + 1) * sizeof(void *));
+    memmove(l->data[idx], l->data[idx + 1], (l->len - (idx + 1)) * sizeof(void *));
     l->len--;
 
     return true;
